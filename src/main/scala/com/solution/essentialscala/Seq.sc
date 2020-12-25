@@ -3,7 +3,7 @@ import scala.util.Sorting
 /*
 -- Synonym of length is Seq is called
     *   size
--- Two methods to get first element of a list
+-- Two methods to get first element of a CustomList
     *   head
     *
 

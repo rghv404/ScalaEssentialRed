@@ -1,8 +1,8 @@
 /*
-Convert Int linked list to generic using scala types
+Convert Int linked CustomList to generic using scala types
  */
 
-sealed trait LinkedList[T]{
+sealed trait LinkedCustomList[T]{
   def length: Int = {
     this match {
       case Pair(_, t) => 1 + t.length
@@ -23,8 +23,8 @@ sealed trait LinkedList[T]{
     }
   }
 }
-final case class End[T]() extends LinkedList[T]
-final case class Pair[T](head: T, tail: LinkedList[T]) extends LinkedList[T]
+final case class End[T]() extends LinkedCustomList[T]
+final case class Pair[T](head: T, tail: LinkedCustomList[T]) extends LinkedCustomList[T]
 
 val example = Pair(1, Pair(2, Pair(3, End())))
 assert(example.length == 3)
@@ -56,7 +56,7 @@ sealed trait Result[A]
 case class Success[A](result: A) extends Result[A]
 case class Failure[A](reason: String) extends Result[A]
 
-sealed trait BetterLinkedList[T]{
+sealed trait BetterLinkedCustomList[T]{
   def apply(n: Int): Result[T] = {
     this match {
       case BetterPair(hd, tl) => if (n == 0) Success[T](hd) else tl(n-1)
@@ -64,8 +64,8 @@ sealed trait BetterLinkedList[T]{
     }
   }
 }
-final case class BetterEnd[T]() extends BetterLinkedList[T]
-final case class BetterPair[T](head: T, tail: BetterLinkedList[T]) extends BetterLinkedList[T]
+final case class BetterEnd[T]() extends BetterLinkedCustomList[T]
+final case class BetterPair[T](head: T, tail: BetterLinkedCustomList[T]) extends BetterLinkedCustomList[T]
 
 val example4 = BetterPair(1, BetterPair(2, BetterPair(3, BetterEnd())))
 assert(example4(0) == Success(1))

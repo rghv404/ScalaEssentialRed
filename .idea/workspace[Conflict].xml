@@ -3,11 +3,11 @@
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
-  <component name="ChangeListManager">
-    <list default="true" id="d9336e26-d6d2-4536-a612-b125e4ebbbe5" name="Default Changelist" comment="" />
+  <component name="ChangeCustomListManager">
+    <CustomList default="true" id="d9336e26-d6d2-4536-a612-b125e4ebbbe5" name="Default ChangeCustomList" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
-    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGECustomList" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CodeStyleSettingsInfer">
@@ -20,9 +20,9 @@
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
-      <list>
+      <CustomList>
         <option value="Scala Worksheet" />
-      </list>
+      </CustomList>
     </option>
   </component>
   <component name="ProjectCodeStyleSettingsMigration">
@@ -41,7 +41,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="d9336e26-d6d2-4536-a612-b125e4ebbbe5" name="Default Changelist" comment="" />
+      <changeCustomList id="d9336e26-d6d2-4536-a612-b125e4ebbbe5" name="Default ChangeCustomList" comment="" />
       <created>1605469984661</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />

@@ -88,21 +88,21 @@ object Kinds {                                                                  
   //level 0 type == kind that can be attached to values (most basic stuff)
   val number:Int = 42// Int/String are a regaular type that can be attached to a value
 
-  // logic of a list shoudl ideally be regardless of the type it contain
-  // below T determines the type of stuff List will hold
-  class LinkedList[T] { // generic == level 1 Type (cannot be attached to a value on it's own
+  // logic of a CustomList shoudl ideally be regardless of the type it contain
+  // below T determines the type of stuff CustomList will hold
+  class LinkedCustomList[T] { // generic == level 1 Type (cannot be attached to a value on it's own
     // level 1 type takes arguments of level 0 type
     // code
   }
 
-  val aList: LinkedList[Int] = ???
-  // once we define aList as a list of Int by passing Int to level 1 it then
+  val aCustomList: LinkedCustomList[Int] = ???
+  // once we define aCustomList as a CustomList of Int by passing Int to level 1 it then
   // become
 
   //level 2 types -- type Fucntor takes argument which is
   class Functor[F[_]] // takes an type argument which in itself is generic
-  val functorList = new Functor[List] //functorList is a level zero type
-  //************* functorList is a level 0 type -- functor also acts as type constructor
+  val functorCustomList = new Functor[CustomList] //functorCustomList is a level zero type
+  //************* functorCustomList is a level 0 type -- functor also acts as type constructor
   // also acts as a type constructor because it takes a type [F[_]] => gives Functor[F]
 
   //examples
@@ -110,7 +110,7 @@ object Kinds {                                                                  
   val anAddressBook = new HashMap[String, String]
 
   class ComposedFunctor[F[_], G[_]] // lvel 2
-  val aComposedFunctor = new ComposedFunctor[List, Option]
+  val aComposedFunctor = new ComposedFunctor[CustomList, Option]
 
   class Formatter[F[_], T] // level 2 --type constructor, type lambdas
   val aFormatter = new Formatter[Option, String]
@@ -119,10 +119,10 @@ object Kinds {                                                                  
 
 /*
 Exerise 5
-Use tail recursion to find length of below linked list
+Use tail recursion to find length of below linked CustomList
  */
-@tailrec                                                                         //defined trait IntList
-sealed trait IntList{
+@tailrec                                                                         //defined trait IntCustomList
+sealed trait IntCustomList{
   def length: Int = {
     this match {
       case End => 0
@@ -137,7 +137,7 @@ sealed trait IntList{
     }
   }
 
-  def double: IntList = {
+  def double: IntCustomList = {
     this match {
       case End => End
       case Pair(hd, tl) => Pair(2*hd, tl.double)
@@ -145,8 +145,8 @@ sealed trait IntList{
   }
 }
 
-case object End extends IntList                                                  //defined object End
-final case class Pair(head: Int, tail: IntList) extends IntList                  //defined class Pair
+case object End extends IntCustomList                                                  //defined object End
+final case class Pair(head: Int, tail: IntCustomList) extends IntCustomList                  //defined class Pair
 
 val example = Pair(1, Pair(2, Pair(3, End)))                                     //example: Pair = Pair(1,Pair(2,Pair(3,End)))
 assert(example.length == 3)

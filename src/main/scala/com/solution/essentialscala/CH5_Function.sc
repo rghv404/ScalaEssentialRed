@@ -1,7 +1,7 @@
 /*
 Here comes the function abstraction over the repetetive and now understood structural recursion
  */
-sealed trait IntList {
+sealed trait IntCustomList {
   def fold[T](end: T, f: (Int, T) => T): T = {
     this match {
       case End => end
@@ -11,11 +11,11 @@ sealed trait IntList {
   def sum: Int = fold[Int](0, (a, b) => a + b)
   def product: Int = fold[Int](1, (a, b) => a * b)
   def length: Int = fold[Int](0, (_, b) => 1 + b)
-  def double: IntList = fold[IntList](End, (hd, tl) => Pair(2*hd, tl))
+  def double: IntCustomList = fold[IntCustomList](End, (hd, tl) => Pair(2*hd, tl))
 }
 
-final case object End extends IntList
-final case class Pair(head: Int, tail: IntList) extends IntList
+final case object End extends IntCustomList
+final case class Pair(head: Int, tail: IntCustomList) extends IntCustomList
 
 val example = Pair(1, Pair(2, Pair(3, End)))
 assert(example.product == 6)
@@ -25,12 +25,12 @@ assert(example.double == Pair(2, Pair(4, Pair(6, End))))
 
 
 /*
-Fold Function for Generix LinkedList
+Fold Function for Generix LinkedCustomList
 * Fold will have two params representing each class the trait can be. Here end and pair
 * Since End takes no params it simply return type B and pair takes two params
  */
 
-sealed trait LinkedList[A]{
+sealed trait LinkedCustomList[A]{
   def fold[B](end: B, node: (A, B) => B): B = {
     this match {
       case End() => end
@@ -39,8 +39,8 @@ sealed trait LinkedList[A]{
   }
 }
 
-final case class End[A]() extends LinkedList[A]
-final case class Node[A](head: A, tl: LinkedList[A]) extends LinkedList[A]
+final case class End[A]() extends LinkedCustomList[A]
+final case class Node[A](head: A, tl: LinkedCustomList[A]) extends LinkedCustomList[A]
 
 /*
 Binary generic Tree
@@ -116,20 +116,20 @@ val perhaps: Maybe[Int] = Empty[Int]
 val perhaps: Maybe[Int] = Full(1)
 
 /*
-Create map fucntion using recursion structure to map from List[A] to List[B
+Create map fucntion using recursion structure to map from CustomList[A] to CustomList[B
  */
 
-sealed trait NewLinkedList[A]{
+sealed trait NewLinkedCustomList[A]{
   // implement map using logic of fold
-  def map[B](f: A => B): NewLinkedList[B] = {
+  def map[B](f: A => B): NewLinkedCustomList[B] = {
     this match{
       case End2() => End2()
       case Pair2(hd, tl) => Pair2(f(hd), tl.map(f))
     }
   }
 }
-final case class End2[A]() extends NewLinkedList[A]
-final case class Pair2[A](head: A, tail: NewLinkedList[A]) extends NewLinkedList[A]
+final case class End2[A]() extends NewLinkedCustomList[A]
+final case class Pair2[A](head: A, tail: NewLinkedCustomList[A]) extends NewLinkedCustomList[A]
 
 /*
 Implement a flatmap for Maybe sum class that takes Maybe[A] and give Maybe[B
@@ -157,27 +157,27 @@ final case class Empty2[A]() extends MyMaybe[A]
 final case class Full2[A](value: A) extends MyMaybe[A]
 
 
-val list: LinkedList[Int] = Node(1, Node(2, Node(3, End())))
-//double all element in the list
-list.fold[LinkedList[Int]](End(), (hd, tl) => Node(2*hd, tl))
-list.fold[LinkedList[Int]](End(), (hd, tl) => Node(hd+1, tl))
-list.fold[LinkedList[Int]](End(), (hd, tl) => Node(hd/3, tl))
+val CustomList: LinkedCustomList[Int] = Node(1, Node(2, Node(3, End())))
+//double all element in the CustomList
+CustomList.fold[LinkedCustomList[Int]](End(), (hd, tl) => Node(2*hd, tl))
+CustomList.fold[LinkedCustomList[Int]](End(), (hd, tl) => Node(hd+1, tl))
+CustomList.fold[LinkedCustomList[Int]](End(), (hd, tl) => Node(hd/3, tl))
 // abov uses generic fold function, this could alos be simplified using map
 
 
 /*
 Using scala flatmap now that we undersatn d the basicas of it
  */
- val list2 = List(1, 2, 3)
-list2.flatMap(v => List(v, -v))
+ val CustomList2 = CustomList(1, 2, 3)
+CustomList2.flatMap(v => CustomList(v, -v))
 
-// using flatmap return a List[Maybe[Int]] containing None for the odd elements. Hint: If x % 2 == 0thenxis even.
-val list3: List[MyMaybe[Int]] = List(Full2(3), Full2(2), Full2(1))
-list3.flatMap(v => v match {
-  case Empty2() => List(Empty2())
-  case Full2(item) => if (item % 2 == 0) List(Full2(item)) else List(None)
+// using flatmap return a CustomList[Maybe[Int]] containing None for the odd elements. Hint: If x % 2 == 0thenxis even.
+val CustomList3: CustomList[MyMaybe[Int]] = CustomList(Full2(3), Full2(2), Full2(1))
+CustomList3.flatMap(v => v match {
+  case Empty2() => CustomList(Empty2())
+  case Full2(item) => if (item % 2 == 0) CustomList(Full2(item)) else CustomList(None)
 })
-list3.map(maybe => maybe.flatMap[Int](v => if (v%2 == 0) Full2(v) else Empty2()))
+CustomList3.map(maybe => maybe.flatMap[Int](v => if (v%2 == 0) Full2(v) else Empty2()))
 
 sealed trait Sum[A, B]{
   def fold[C](failure: A => C, success: B => C): C =
