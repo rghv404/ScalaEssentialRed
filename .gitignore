@@ -2,5 +2,5 @@
 .bloop
 .metals
 .vscode/
-target/*
+target/
 project/

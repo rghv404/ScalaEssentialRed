@@ -1,4 +1,5 @@
 import scala.annotation.tailrec
+import scala.collection.IterableOnce.iterableOnceExtensionMethods
 
 sealed trait List[+A]
     
@@ -139,7 +140,30 @@ filter(intList)(x => x > 3)
 // basically we can't use map to filter as evident below
 filterviaMap(intList)(x => x > 3)
 
-// def flatMap[A, B](as: List[A])(f: A => List[B]): List[B] = as match {
-//     case Nil => Nil
-//     // case Cons(head, tail) => f(head) ++ flatMap(tail)(f)
-// }
+ def flatMap[A, B](as: scala.collection.immutable.List[A])(f: A => scala.collection.immutable.List[B]): scala.collection.immutable.List[B] =
+     as match {
+     case (x::xs) => f(x) ++ flatMap(xs)(f)
+     case _ => scala.collection.immutable.Nil
+
+ }
+flatMap(List(1, 2, 3, 4, 5))(x => List(x, x))
+
+// use flat map to filter
+flatMap(List(1, 2, 3, 4, 5))(x => if (x < 4) List(x) else scala.collection.immutable.Nil)
+
+// Exercise 3.22 - function that accepts two list and constructs a new list by adding
+// correspond- ing elements. For example, List(1,2,3) and List(4,5,6) become List(5,7,9)
+def addCorresponding(l1: List[Int],
+                        l2: List[Int]): List[Int] =
+//    l1.flatMap((x: Int) => List(l2.map((y: Int) => (x + y))))
+  (l1, l2) match {
+      case (_, Nil) => Nil
+      case (Nil, _) => Nil
+      case (Cons(x:Int, xs), Cons(y:Int, ys)) => {
+          Cons(x + y , addCorresponding(xs, ys))
+      }
+  }
+
+val newList: List[Double]  = Cons(2 * 3, Cons(5, Cons(6 + 7, Nil)))
+addCorresponding(intList, intList)
+
