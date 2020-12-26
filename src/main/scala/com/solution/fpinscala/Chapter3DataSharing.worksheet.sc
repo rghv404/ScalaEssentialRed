@@ -167,3 +167,43 @@ def addCorresponding(l1: List[Int],
 val newList: List[Double]  = Cons(2 * 3, Cons(5, Cons(6 + 7, Nil)))
 addCorresponding(intList, intList)
 
+// generalize the function above so it's not just doing addition or using integers
+def zipWith[A, B](l1: List[A], l2: List[A])(f: (A, A) => B): List[B] = (l1, l2) match {
+    case (_, Nil) => Nil
+    case (Nil, _) => Nil
+    case(Cons(x, xs), Cons(y, ys)) => Cons(f(x, y), zipWith(xs, ys)(f))
+}
+zipWith(intList, intList)((x, y) => x * y)
+
+// Exercise 3.24 - check sub sequence
+// the logic could be iterating on the larger list and check for each item from shorter list in order 
+// if it's present in the larger list
+def hasSubSequence[A](l1: List[A], l2: List[A]): Boolean = {
+    def walk[A](lst1: List[A], lst2: List[A], counter: Int): Int = (lst1, lst2) match {
+        case (Nil, _) => counter
+        case (_, Nil) => counter
+        case (Cons(x, xs), Cons(y, ys)) => 
+            if (x == y) 
+                walk(xs, ys, counter + 1)
+            else
+                walk(Cons(x, xs), ys, counter)
+    }
+    if (length(l1) > length(l2)){
+        val res = walk(l2, l1, 0)
+        res == length(l2)
+    }
+    else if (length(l1) < length(l2)){
+        val res = walk(l1, l2, 0)
+        res == length(l1)
+    } else{
+        l1.toString() == l2.toString()
+    }
+}
+
+val l1: List[Int] = Cons(1,Cons(2, Cons(3, Cons(4, Nil))))
+val l2: List[Int] = Cons(1, Cons(2, Nil))
+val l3 : List[Int] = Cons(2, Cons(3, Cons(5, Nil)))
+length(l2)
+hasSubSequence(l1, l3)
+
+// Trees
