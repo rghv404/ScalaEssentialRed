@@ -206,4 +206,3 @@ val l3 : List[Int] = Cons(2, Cons(3, Cons(5, Nil)))
 length(l2)
 hasSubSequence(l1, l3)
 
-// Trees
